@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Application.Dto.Account;
+namespace Presentation.Contracts;
 
 public record LoginUserRequest (
     [Required] [EmailAddress] string Email,
