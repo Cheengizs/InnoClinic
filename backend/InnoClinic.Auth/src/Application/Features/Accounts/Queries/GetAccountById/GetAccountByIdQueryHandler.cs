@@ -28,22 +28,12 @@ public class GetAccountByIdQueryHandler : IRequestHandler<GetAccountByIdQuery, R
                 acc.CreatedAt
             ))
             .FirstOrDefaultAsync(cancellationToken);
-
-        var some = acc;
         
         if (acc is null)
         {
             return Result<AccountResponse>.Failure("Account not found", ErrorType.NotFound);
         }
         
-        var response = new AccountResponse(
-            Id: acc.Id,
-            Email: acc.Email,
-            Role: acc.Role,
-            PhoneNumber: acc.PhoneNumber,
-            CreatedAt: acc.CreatedAt
-        );
-        
-        return Result<AccountResponse>.Success(response);
+        return Result<AccountResponse>.Success(acc);
     }
 }

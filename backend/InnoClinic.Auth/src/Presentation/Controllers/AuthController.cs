@@ -4,6 +4,7 @@ using Application.Features.Accounts.Commands.RegisterAccount;
 using Application.Features.Accounts.Commands.Revoke;
 using Application.Features.Accounts.Queries.GetAccountById;
 using Domain.Shared;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +17,13 @@ namespace Presentation.Controllers;
 [Route("api/v1/auth")]
 public class AuthController : ControllerBase
 {
+    private readonly IValidator<RegisterUserRequest> _validator;
     private readonly ISender _sender;
 
-    public AuthController(ISender sender)
+    public AuthController(ISender sender, IValidator<RegisterUserRequest> validator)
     {
         _sender = sender;
+        _validator = validator;
     }
 
     [HttpPost("register")]
@@ -28,6 +31,12 @@ public class AuthController : ControllerBase
         [FromBody] RegisterUserRequest request,
         CancellationToken cancellationToken)
     {
+        var res = await _validator.ValidateAsync(request, cancellationToken);
+        if (!res.IsValid)
+        {
+            return BadRequest("validation failed");
+        }
+        
         var command = new RegisterAccountCommand(
             request.Email,
             request.Password,

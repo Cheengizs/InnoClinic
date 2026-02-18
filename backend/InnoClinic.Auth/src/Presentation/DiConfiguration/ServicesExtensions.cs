@@ -1,12 +1,15 @@
-﻿using System.Text;
+﻿using System.Reflection;
+using System.Text;
 using System.Text.Json.Serialization;
 using Application;
 using Application.Dto.Options;
+using FluentValidation;
 using Infrastructure;
 using Infrastructure.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Presentation.Validators;
 
 namespace Presentation.DiConfiguration;
 
@@ -22,8 +25,6 @@ public static class ServicesExtensions
             });
 
         services.Configure<JwtOptions>(configuration.GetSection(nameof(JwtOptions)));
-
-        var jwtOptions = configuration.GetSection("JwtOptions").Get<JwtOptions>();
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer();
@@ -53,7 +54,7 @@ public static class ServicesExtensions
             });
 
         services.AddOpenApi();
-
+        services.AddValidatorsFromAssembly(typeof(RegisterUserRequestValidator).Assembly);
         services.Configure<DbConnectionOption>(configuration.GetSection(nameof(DbConnectionOption)));
 
         services.AddInfrastructure();
