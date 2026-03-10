@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35919.96 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B82D2A0A-1911-464A-B066-F8678F7AB891}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D5B5AD67-5ABA-41AB-90D6-916B9DAF28E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "src\Presentation\Presentation.csproj", "{695ADC9B-7615-4510-B5B8-F58F81DA75CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "src\DataAccess\DataAccess.csproj", "{21F1FBCA-89CD-4DEB-B5F0-1A01C7B8D858}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business", "src\Business\Business.csproj", "{BFE7714C-4FE3-42F3-BEDA-8B6BB3932BE8}"
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{695ADC9B-7615-4510-B5B8-F58F81DA75CD} = {B82D2A0A-1911-464A-B066-F8678F7AB891}
+		{21F1FBCA-89CD-4DEB-B5F0-1A01C7B8D858} = {B82D2A0A-1911-464A-B066-F8678F7AB891}
+		{BFE7714C-4FE3-42F3-BEDA-8B6BB3932BE8} = {B82D2A0A-1911-464A-B066-F8678F7AB891}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+	EndGlobalSection
+EndGlobal
