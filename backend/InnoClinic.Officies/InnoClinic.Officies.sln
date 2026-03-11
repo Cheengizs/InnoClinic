@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "src\DataAcces
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business", "src\Business\Business.csproj", "{BFE7714C-4FE3-42F3-BEDA-8B6BB3932BE8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "src\Shared\Shared.csproj", "{472B8B1C-6684-4AE1-A087-9D93004C4998}"
+EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -22,6 +24,7 @@ Global
 		{695ADC9B-7615-4510-B5B8-F58F81DA75CD} = {B82D2A0A-1911-464A-B066-F8678F7AB891}
 		{21F1FBCA-89CD-4DEB-B5F0-1A01C7B8D858} = {B82D2A0A-1911-464A-B066-F8678F7AB891}
 		{BFE7714C-4FE3-42F3-BEDA-8B6BB3932BE8} = {B82D2A0A-1911-464A-B066-F8678F7AB891}
+		{472B8B1C-6684-4AE1-A087-9D93004C4998} = {B82D2A0A-1911-464A-B066-F8678F7AB891}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 	EndGlobalSection
