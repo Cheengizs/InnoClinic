@@ -10,6 +10,5 @@ public record UpdateOfficeCommand(
     string HouseNumber,
     string OfficeNumber,
     Guid? PhotoId,
-    string RegistryPhoneNumber,
-    bool IsActive
+    string RegistryPhoneNumber
     ) : IRequest<Result>;
