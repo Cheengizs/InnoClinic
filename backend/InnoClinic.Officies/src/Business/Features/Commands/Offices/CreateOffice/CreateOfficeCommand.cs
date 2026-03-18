@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Shared.Results;
 
-namespace Business.Features.Commands.Officies.CreateOffice;
+namespace Business.Features.Commands.Offices.CreateOffice;
 
 public record CreateOfficeCommand(
     string City,

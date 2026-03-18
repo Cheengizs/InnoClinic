@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Shared.Results;
 
-namespace Business.Features.Commands.Officies.UpdateOffice;
+namespace Business.Features.Commands.Offices.UpdateOffice;
 
 public record UpdateOfficeCommand(
     Guid Id,

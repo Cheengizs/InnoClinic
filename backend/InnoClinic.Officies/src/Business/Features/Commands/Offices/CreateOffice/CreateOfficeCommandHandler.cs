@@ -4,7 +4,7 @@ using DataAccess.Repositories.Abstractions;
 using MediatR;
 using Shared.Results;
 
-namespace Business.Features.Commands.Officies.CreateOffice;
+namespace Business.Features.Commands.Offices.CreateOffice;
 
 public class CreateOfficeCommandHandler : IRequestHandler<CreateOfficeCommand, Result<Guid>>
 {

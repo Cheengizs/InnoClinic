@@ -2,7 +2,7 @@
 using MediatR;
 using Shared.Results;
 
-namespace Business.Features.Commands.Officies.SetActiveStatus;
+namespace Business.Features.Commands.Offices.SetActiveStatus;
 
 public class SetActiveStatusCommandHandler : IRequestHandler<SetActiveStatusCommand, Result>
 {

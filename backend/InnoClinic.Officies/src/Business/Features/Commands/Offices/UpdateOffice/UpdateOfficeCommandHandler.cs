@@ -4,7 +4,7 @@ using DataAccess.Repositories.Abstractions;
 using MediatR;
 using Shared.Results;
 
-namespace Business.Features.Commands.Officies.UpdateOffice;
+namespace Business.Features.Commands.Offices.UpdateOffice;
 
 public class UpdateOfficeCommandHandler : IRequestHandler<UpdateOfficeCommand, Result>
 {
