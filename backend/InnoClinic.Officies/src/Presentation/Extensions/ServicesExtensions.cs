@@ -26,8 +26,9 @@ public static class ServicesExtensions
         services.AddDbContext<OfficesDbContext>((serviceProvider, optionsBuilder) =>
         {
             var options = serviceProvider.GetService<IOptions<DbOptionClass>>()?.Value;
-            
-            optionsBuilder.UseMongoDB(options.ToConnectionString(), options.DatabaseName);
+
+            var connectionString = options.ToConnectionString();
+            optionsBuilder.UseMongoDB(connectionString, options.DatabaseName);
         });
         
         services.AddAutoMapper(cfg => 

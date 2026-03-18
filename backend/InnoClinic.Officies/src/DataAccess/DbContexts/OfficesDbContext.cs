@@ -17,5 +17,4 @@ public class OfficesDbContext : DbContext
     }
 
     public DbSet<Office> Offices => Set<Office>();
-    public DbSet<OfficePhoto> OfficePhotos => Set<OfficePhoto>();
 }

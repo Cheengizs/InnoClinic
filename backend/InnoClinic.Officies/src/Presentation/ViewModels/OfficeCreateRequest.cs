@@ -6,6 +6,6 @@ public class OfficeCreateRequest
     public string Street { get; init;}
     public string HouseNumber { get; init; }
     public string OfficeNumber { get; init; }
-    public Guid? PhotoId { get; init; }
+    public string PhotoUri { get; init; }
     public string RegistryPhoneNumber { get; init; }
 }

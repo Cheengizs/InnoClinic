@@ -1,7 +1,6 @@
 using Presentation.Extensions;
 using Presentation.Middlewares;
 using Presentation.MinimalApi;
-using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.AddLoggingExtension();

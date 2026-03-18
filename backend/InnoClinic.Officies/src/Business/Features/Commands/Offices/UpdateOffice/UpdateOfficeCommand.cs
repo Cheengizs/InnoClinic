@@ -9,6 +9,6 @@ public record UpdateOfficeCommand(
     string Street,
     string HouseNumber,
     string OfficeNumber,
-    Guid? PhotoId,
+    string PhotoUri,
     string RegistryPhoneNumber
     ) : IRequest<Result>;

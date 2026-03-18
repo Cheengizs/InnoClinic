@@ -1,0 +1,43 @@
+﻿services:
+  presentation:
+    build:
+      context: .
+      dockerfile: src/Presentation/Dockerfile
+    ports:
+      - "5168:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DbOptionClass__Host=mongodb
+      - DbOptionClass__Port=27017
+      - DbOptionClass__Username=admin
+      - DbOptionClass__Password=offices123
+      - ConnectionStrings__AzureBlobStorage=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azurite:10000/devstoreaccount1;
+    depends_on:
+      - mongodb
+      - azurite
+
+  mongodb:
+    image: mongo:latest
+    container_name: office_mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=offices123
+    volumes:
+      - mongodb_data:/data/db
+
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite
+    container_name: office_azurite
+    ports:
+      - "10000:10000"
+      - "10001:10001"
+      - "10002:10002"
+    command: azurite-blob --blobHost 0.0.0.0 --blobPort 10000
+    volumes:
+      - azurite_data:/data
+
+volumes:
+  mongodb_data:
+  azurite_data:

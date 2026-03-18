@@ -7,21 +7,20 @@ public class Office
     public string Street { get; private set; }
     public string HouseNumber { get; private set; }
     public string OfficeNumber { get; private set; }
-    public Guid? PhotoId { get; private set; }
+    public string PhotoUri { get; private set; }
     public string RegistryPhoneNumber { get; private set; }
     public bool IsActive { get; private set; }
 
-    public OfficePhoto Photo { get; private set; }
 
     public Office(string city, string street, string houseNumber, string officeNumber, string registryPhoneNumber,
-        Guid? photoId = null, bool isActive = true)
+        string photoUri = "", bool isActive = true)
     {
         Id = Guid.CreateVersion7();
         City = city;
         Street = street;
         HouseNumber = houseNumber;
         OfficeNumber = officeNumber;
-        PhotoId = photoId;
+        PhotoUri = photoUri;
         RegistryPhoneNumber = registryPhoneNumber;
         IsActive = isActive;
     }
@@ -35,9 +34,9 @@ public class Office
         IsActive = isActive;
     }
 
-    public void ChangePhotoId(Guid? photoId)
+    public void ChangePhotoUri(string newPhotoUri)
     {
-        PhotoId = photoId;
+        PhotoUri = newPhotoUri;
     }
 
     public void ChangeAddress(string city, string street, string houseNumber)

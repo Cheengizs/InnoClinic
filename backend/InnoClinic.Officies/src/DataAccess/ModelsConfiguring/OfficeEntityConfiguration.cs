@@ -33,10 +33,6 @@ public class OfficeEntityConfiguration : IEntityTypeConfiguration<Office>
         builder.Property(x => x.RegistryPhoneNumber)
             .HasMaxLength(DbConfigConstants.MaxRegistryPhoneNumberLength)
             .IsRequired();
-
-        builder.HasOne(x => x.Photo)
-            .WithOne(x => x.Office)
-            .HasForeignKey<Office>(x => x.PhotoId);
         
         builder.Property(x => x.IsActive)
             .IsRequired();

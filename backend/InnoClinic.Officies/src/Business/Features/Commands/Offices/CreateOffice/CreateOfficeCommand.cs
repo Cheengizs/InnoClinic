@@ -8,6 +8,6 @@ public record CreateOfficeCommand(
     string Street,
     string HouseNumber,
     string OfficeNumber,
-    Guid? PhotoId,
+    string PhotoUri,
     string RegistryPhoneNumber)
     : IRequest<Result<Guid>>;

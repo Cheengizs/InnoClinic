@@ -7,7 +7,7 @@ public class OfficeGetResponse
     public string Street { get; init; }
     public string HouseNumber { get; init; }
     public string OfficeNumber { get; init; }
-    public Guid? PhotoId { get; init; }
+    public string PhotoUri { get; init; }
     public string RegistryPhoneNumber { get; init; }
     public bool IsActive { get; init; }
 }

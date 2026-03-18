@@ -23,10 +23,6 @@ public class OfficeCreateValidator : AbstractValidator<OfficeCreateRequest>
         RuleFor(x => x.OfficeNumber)
             .NotEmpty().WithMessage("Office number is required.");
 
-        RuleFor(x => x.PhotoId)
-            .NotEqual(Guid.Empty).When(x => x.PhotoId.HasValue)
-            .WithMessage("Photo ID cannot be an empty GUID.");
-
         RuleFor(x => x.RegistryPhoneNumber)
             .NotEmpty().WithMessage("Registry phone number is required.");
     }

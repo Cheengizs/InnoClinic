@@ -19,7 +19,6 @@ public class OfficeRepository : IOfficeRepository
     {
         return await _dbContext
             .Offices
-            .Include(x => x.Photo)
             .FirstOrDefaultAsync(x => x.Id == id, ct);
     }
 
@@ -27,7 +26,6 @@ public class OfficeRepository : IOfficeRepository
     {
         return await _dbContext
             .Offices
-            .Include(x => x.Photo)
             .Skip((pageNumber - 1) * pageCount)
             .Take(pageCount)
             .ToListAsync(ct);
