@@ -4,7 +4,7 @@ using DataAccess.Repositories.Abstractions;
 using MediatR;
 using Shared.Results;
 
-namespace Business.Features.Queries.Officies.GetOffices;
+namespace Business.Features.Queries.Offices.GetOffices;
 
 public class GetOfficesQueryHandler : IRequestHandler<GetOfficesQuery, Result<IEnumerable<OfficeGet>>>
 {
