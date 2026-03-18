@@ -4,5 +4,5 @@ using Shared.Results;
 
 namespace Business.Features.Queries.Officies.GetOffices;
 
-public record GetOfficesCommand(int PageNumber,
+public record GetOfficesQuery(int PageNumber,
     int PageCount) : IRequest<Result<IEnumerable<OfficeGet>>>;
