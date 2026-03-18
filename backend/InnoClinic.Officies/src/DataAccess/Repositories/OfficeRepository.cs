@@ -54,4 +54,11 @@ public class OfficeRepository : IOfficeRepository
         _dbContext.Offices.Remove(office);
         await _dbContext.SaveChangesAsync(ct);
     }
+
+    public async Task<bool> SetActiveStatusAsync(Office office, bool newIsActive, CancellationToken ct)
+    {
+        office.SetActiveProperty(newIsActive);
+        await  _dbContext.SaveChangesAsync(ct);
+        return office.IsActive;
+    }
 }

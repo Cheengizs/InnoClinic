@@ -10,4 +10,5 @@ public interface IOfficeRepository
     Task<Office?> CreateOfficeAsync(Office office, CancellationToken ct);
     Task<Office?> UpdateOfficeAsync(Office office, CancellationToken ct);
     Task DeleteOfficeAsync(Office office, CancellationToken ct);
+    Task<bool> SetActiveStatusAsync(Office office, bool newIsActive, CancellationToken ct);
 }
