@@ -1,33 +1,27 @@
-using System.Data;
-using Microsoft.AspNetCore.Http.Features;
+using Presentation.Extensions;
+using Presentation.Middlewares;
+using Presentation.MinimalApi;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddOpenApi();
+builder.AddLoggingExtension();
+builder.Services.AddServices(builder.Configuration);
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
+app.UseMiddleware<ExceptionHandlerMiddleware>();
+app.UseMiddleware<LoggingHandlerMiddleware>();
 app.UseHttpsRedirection();
+
+app.MapGroup("/api/v1/offices")
+    .MapOffices();
 
 app.Run();
 
-app.MapGet("api/v1/officies", () =>
-{
-    // validation
-    
-    // use case call
-    
-    // result sending
-    
-});
-
-public class SomeRequest
-{
-    public string Name { get; set; }
-    public string Address { get; set; }
-}
