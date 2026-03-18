@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Business.Contracts.Office;
+using MediatR;
 using Shared.Results;
 
 namespace Business.Features.Commands.Offices.CreateOffice;
@@ -10,4 +11,4 @@ public record CreateOfficeCommand(
     string OfficeNumber,
     string PhotoUri,
     string RegistryPhoneNumber)
-    : IRequest<Result<Guid>>;
+    : IRequest<Result<OfficeGet>>;
