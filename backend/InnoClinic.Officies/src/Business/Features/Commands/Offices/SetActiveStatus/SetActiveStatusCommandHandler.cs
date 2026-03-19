@@ -26,7 +26,7 @@ public class SetActiveStatusCommandHandler : IRequestHandler<SetActiveStatusComm
         {
             return Result.Failure(ResultMessages.UnexpectedResult);
         }
-        
-        return Result.Success(); 
+
+        return Result.Success();
     }
 }

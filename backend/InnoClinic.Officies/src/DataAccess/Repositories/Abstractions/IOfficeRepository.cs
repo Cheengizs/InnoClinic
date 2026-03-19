@@ -1,5 +1,4 @@
-﻿using DataAccess.Dto;
-using DataAccess.Models;
+﻿using DataAccess.Models;
 
 namespace DataAccess.Repositories.Abstractions;
 

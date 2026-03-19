@@ -50,7 +50,7 @@ public class Office
     {
         OfficeNumber = officeNumber;
     }
-    
+
     public void ChangeRegistryPhoneNumber(string registryPhoneNumber)
     {
         RegistryPhoneNumber = registryPhoneNumber;

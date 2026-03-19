@@ -19,15 +19,15 @@ public class UpdateOfficeCommandHandler : IRequestHandler<UpdateOfficeCommand, R
 
     public async Task<Result> Handle(UpdateOfficeCommand request, CancellationToken ct)
     {
-        var officeFromRepo = await _officeRepository.GetOfficeByIdAsync(request.Id, ct);
-        if (officeFromRepo == null)
+        var office = await _officeRepository.GetOfficeByIdAsync(request.Id, ct);
+        if (office == null)
         {
             return Result.Failure(ResultMessages.OfficeNotFound, ErrorType.NotFound);
         }
-        
-        var office = _mapper.Map<Office>(request);
+
+        _mapper.Map(request, office);
         await _officeRepository.UpdateOfficeAsync(office, ct);
-        
+
         return Result.Success();
     }
 }

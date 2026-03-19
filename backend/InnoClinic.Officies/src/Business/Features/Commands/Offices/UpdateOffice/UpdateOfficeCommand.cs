@@ -11,4 +11,4 @@ public record UpdateOfficeCommand(
     string OfficeNumber,
     string PhotoUri,
     string RegistryPhoneNumber
-    ) : IRequest<Result>;
+) : IRequest<Result>;

@@ -1,6 +1,7 @@
 ﻿    using Azure.Storage.Blobs;
     using Business.Features.Commands.Offices.DeleteOffice;
     using Business.Profiles;
+    using DataAccess;
     using DataAccess.BlobStorage;
     using DataAccess.DbContexts;
     using DataAccess.Repositories;

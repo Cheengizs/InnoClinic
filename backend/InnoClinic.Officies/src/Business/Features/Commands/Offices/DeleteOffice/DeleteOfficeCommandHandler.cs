@@ -21,7 +21,7 @@ public class DeleteOfficeCommandHandler : IRequestHandler<DeleteOfficeCommand, R
         {
             return Result.Failure(ResultMessages.OfficeNotFound, ErrorType.NotFound);
         }
-        
+
         await _officeRepository.DeleteOfficeAsync(office, ct);
         return Result.Success();
     }

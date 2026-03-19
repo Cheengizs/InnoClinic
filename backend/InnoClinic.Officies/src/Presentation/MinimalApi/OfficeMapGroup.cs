@@ -29,37 +29,40 @@ public static class OfficeMapGroup
             var resultValue = mapper.Map<OfficeGetResponse>(result.Value);
             return Results.Ok(resultValue);
         });
-        
+
         group.MapGet("",
-            async (IMediator mediator, IMapper mapper, [FromQuery] int pageNumber = 0,
-                [FromQuery] int pageCount = 10) =>
-            {
-                GetOfficesQuery request = new(pageNumber, pageCount);
-                var result = await mediator.Send(request);
-                var resultValue = mapper.Map<List<OfficeGetResponse>>(result.Value);
-                return Results.Ok(resultValue);
-            })
+                async (IMediator mediator, IMapper mapper, [FromQuery] int pageNumber = 1,
+                    [FromQuery] int pageCount = 10) =>
+                {
+                    // todo: pagination validation
+                    var request = new GetOfficesQuery(pageNumber, pageCount);
+                    var result = await mediator.Send(request);
+                    var resultValue = mapper.Map<List<OfficeGetResponse>>(result.Value);
+                    return Results.Ok(resultValue);
+                })
             .WithName("GetOfficeById");
 
-        group.MapPost("", async ([FromBody] OfficeCreateRequest createRequest, IMediator mediator, IMapper mapper, IValidator<OfficeCreateRequest> validator) =>
-        {
-            var validationResult = await validator.ValidateAsync(createRequest);
-            if (!validationResult.IsValid)
+        group.MapPost("",
+            async ([FromBody] OfficeCreateRequest createRequest, IMediator mediator, IMapper mapper,
+                IValidator<OfficeCreateRequest> validator) =>
             {
-                return Results.BadRequest(validationResult.Errors[0].ErrorMessage);
-            }
+                var validationResult = await validator.ValidateAsync(createRequest);
+                if (!validationResult.IsValid)
+                {
+                    return Results.BadRequest(validationResult.Errors[0].ErrorMessage);
+                }
 
-            var request = mapper.Map<CreateOfficeCommand>(createRequest);
-                
-            var result = await mediator.Send(request);
-            if (!result.IsSuccess)
-            {
-                return result.ToProblemDetails();
-            }
+                var request = mapper.Map<CreateOfficeCommand>(createRequest);
 
-            var resultValue = result.Value;
-            return Results.CreatedAtRoute("GetOfficeById", new { id = resultValue.Id }, resultValue);
-        });
+                var result = await mediator.Send(request);
+                if (!result.IsSuccess)
+                {
+                    return result.ToProblemDetails();
+                }
+
+                var resultValue = result.Value;
+                return Results.CreatedAtRoute("GetOfficeById", new { id = resultValue.Id }, resultValue);
+            });
 
         group.MapDelete("{id:guid}", async (IMediator mediator, [FromRoute] Guid id) =>
         {
@@ -73,36 +76,39 @@ public static class OfficeMapGroup
             return Results.NoContent();
         });
 
-        group.MapPut("", async (IMediator mediator, IMapper mapper, [FromBody] OfficeUpdateRequest updateRequest, IValidator<OfficeUpdateRequest> validator) =>
-        {
-            var validationResult = await validator.ValidateAsync(updateRequest);
-            if (!validationResult.IsValid)
+        group.MapPut("",
+            async (IMediator mediator, IMapper mapper, [FromBody] OfficeUpdateRequest updateRequest,
+                IValidator<OfficeUpdateRequest> validator) =>
             {
-                return Results.BadRequest(validationResult.Errors[0].ErrorMessage);
-            }
+                var validationResult = await validator.ValidateAsync(updateRequest);
+                if (!validationResult.IsValid)
+                {
+                    return Results.BadRequest(validationResult.Errors[0].ErrorMessage);
+                }
 
-            var request = mapper.Map<UpdateOfficeCommand>(updateRequest);
-            var result = await mediator.Send(request);
+                var request = mapper.Map<UpdateOfficeCommand>(updateRequest);
+                var result = await mediator.Send(request);
 
-            if (!result.IsSuccess)
+                if (!result.IsSuccess)
+                {
+                    return result.ToProblemDetails();
+                }
+
+                return Results.NoContent();
+            });
+
+        group.MapPatch("setActiveStatus",
+            async (IMediator mediator, [FromBody] OfficeActivityRequest activityRequest) =>
             {
-                return result.ToProblemDetails();
-            }
-            
-            return Results.NoContent();    
-        });
+                var request = new SetActiveStatusCommand(activityRequest.Id, activityRequest.IsActive);
+                var result = await mediator.Send(request);
+                if (!result.IsSuccess)
+                {
+                    return result.ToProblemDetails();
+                }
 
-        group.MapPatch("setActiveStatus", async (IMediator mediator, [FromBody] OfficeActivityRequest activityRequest) =>
-        {
-            SetActiveStatusCommand request = new(activityRequest.Id ,activityRequest.IsActive);
-            var result = await mediator.Send(request);
-            if (!result.IsSuccess)
-            {
-                return result.ToProblemDetails();
-            }
-            
-            return Results.NoContent();
-        });
+                return Results.NoContent();
+            });
 
         return group;
     }

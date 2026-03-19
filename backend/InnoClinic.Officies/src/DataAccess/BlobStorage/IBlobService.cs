@@ -7,5 +7,3 @@ public interface IBlobService
     Task DeleteAsync(Guid fileId, CancellationToken ct = default);
     Task<bool> ExistsAsync(Guid fileId, CancellationToken ct = default);
 }
-
-

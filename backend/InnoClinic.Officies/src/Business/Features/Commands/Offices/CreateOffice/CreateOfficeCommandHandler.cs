@@ -22,9 +22,9 @@ public class CreateOfficeCommandHandler : IRequestHandler<CreateOfficeCommand, R
     public async Task<Result<OfficeGet>> Handle(CreateOfficeCommand request, CancellationToken ct)
     {
         var office = _mapper.Map<Office>(request);
-        
+
         office = await _officeRepository.CreateOfficeAsync(office, ct);
-        
+
         var result = _mapper.Map<OfficeGet>(office);
         return Result<OfficeGet>.Success(result);
     }

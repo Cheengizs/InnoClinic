@@ -19,7 +19,7 @@ public class GetOfficesQueryHandler : IRequestHandler<GetOfficesQuery, Result<IE
 
     public async Task<Result<IEnumerable<OfficeGet>>> Handle(GetOfficesQuery request, CancellationToken ct)
     {
-        var officies = await _officeRepository.GetAllOfficesAsync(request.PageNumber, request.PageNumber, ct);
+        var officies = await _officeRepository.GetAllOfficesAsync(request.PageNumber, request.PageCount, ct);
         var result = _mapper.Map<IEnumerable<OfficeGet>>(officies);
         return Result<IEnumerable<OfficeGet>>.Success(result);
     }

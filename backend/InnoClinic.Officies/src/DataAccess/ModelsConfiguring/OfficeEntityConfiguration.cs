@@ -10,22 +10,21 @@ public class OfficeEntityConfiguration : IEntityTypeConfiguration<Office>
     public void Configure(EntityTypeBuilder<Office> builder)
     {
         builder.ToTable("offices");
-        
-        builder.
-            HasKey(x => x.Id);
+
+        builder.HasKey(x => x.Id);
 
         builder.Property(x => x.City)
             .HasMaxLength(DbConfigConstants.MaxCityLength)
             .IsRequired();
-        
+
         builder.Property(x => x.Street)
             .HasMaxLength(DbConfigConstants.MaxStreetLength)
             .IsRequired();
-        
+
         builder.Property(x => x.HouseNumber)
             .HasMaxLength(DbConfigConstants.MaxHouseNumberLength)
             .IsRequired();
-        
+
         builder.Property(x => x.OfficeNumber)
             .HasMaxLength(DbConfigConstants.MaxOfficeNumberLength)
             .IsRequired();
@@ -33,7 +32,7 @@ public class OfficeEntityConfiguration : IEntityTypeConfiguration<Office>
         builder.Property(x => x.RegistryPhoneNumber)
             .HasMaxLength(DbConfigConstants.MaxRegistryPhoneNumberLength)
             .IsRequired();
-        
+
         builder.Property(x => x.IsActive)
             .IsRequired();
     }

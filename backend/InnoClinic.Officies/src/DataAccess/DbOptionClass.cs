@@ -1,4 +1,4 @@
-﻿namespace Presentation.Extensions;
+﻿namespace DataAccess;
 
 public class DbOptionClass
 {

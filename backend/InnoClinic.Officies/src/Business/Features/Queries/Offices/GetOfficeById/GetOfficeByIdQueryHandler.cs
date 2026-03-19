@@ -10,7 +10,7 @@ public class GetOfficeByIdQueryHandler : IRequestHandler<GetOfficeByIdQuery, Res
 {
     private readonly IOfficeRepository _officeRepository;
     private readonly IMapper _mapper;
-    
+
     public GetOfficeByIdQueryHandler(IOfficeRepository officeRepository, IMapper mapper)
     {
         _officeRepository = officeRepository;
@@ -24,6 +24,7 @@ public class GetOfficeByIdQueryHandler : IRequestHandler<GetOfficeByIdQuery, Res
         {
             return Result<OfficeGet>.Failure(ResultMessages.OfficeNotFound, ErrorType.NotFound);
         }
+
         var officeContract = _mapper.Map<OfficeGet>(office);
 
         return Result<OfficeGet>.Success(officeContract);

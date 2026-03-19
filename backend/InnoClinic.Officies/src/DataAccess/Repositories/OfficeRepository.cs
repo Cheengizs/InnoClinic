@@ -1,5 +1,4 @@
 ﻿using DataAccess.DbContexts;
-using DataAccess.Dto;
 using DataAccess.Models;
 using DataAccess.Repositories.Abstractions;
 using Microsoft.EntityFrameworkCore;
@@ -24,8 +23,9 @@ public class OfficeRepository : IOfficeRepository
 
     public async Task<List<Office>> GetAllOfficesAsync(int pageNumber, int pageCount, CancellationToken ct)
     {
-        return await _dbContext
-            .Offices
+        return await _dbContext.Offices
+            .AsNoTracking()
+            .OrderBy(o => o.Id)
             .Skip((pageNumber - 1) * pageCount)
             .Take(pageCount)
             .ToListAsync(ct);
@@ -35,7 +35,7 @@ public class OfficeRepository : IOfficeRepository
     {
         _dbContext.Offices.Add(office);
         await _dbContext.SaveChangesAsync(ct);
-        
+
         return office;
     }
 
@@ -43,7 +43,7 @@ public class OfficeRepository : IOfficeRepository
     {
         _dbContext.Offices.Update(office);
         await _dbContext.SaveChangesAsync(ct);
-        
+
         return office;
     }
 
@@ -56,7 +56,7 @@ public class OfficeRepository : IOfficeRepository
     public async Task<bool> SetActiveStatusAsync(Office office, bool newIsActive, CancellationToken ct)
     {
         office.SetActiveProperty(newIsActive);
-        await  _dbContext.SaveChangesAsync(ct);
+        await _dbContext.SaveChangesAsync(ct);
         return office.IsActive;
     }
 }

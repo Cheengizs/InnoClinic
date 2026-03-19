@@ -13,7 +13,7 @@ public class DownloadPhotoCommandHandler : IRequestHandler<DownloadPhotoCommand,
     {
         _blobService = blobService;
     }
-    
+
     public async Task<Result<PhotoDownloadResponse>> Handle(DownloadPhotoCommand request, CancellationToken ct)
     {
         var isExists = await _blobService.ExistsAsync(request.Id);
