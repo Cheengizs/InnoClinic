@@ -44,4 +44,11 @@ public class BlobService : IBlobService
         var blobClient = containerClient.GetBlobClient(fileId.ToString());
         await blobClient.DeleteIfExistsAsync(cancellationToken: ct);
     }
+
+    public async Task<bool> ExistsAsync(Guid fileId, CancellationToken ct = default)
+    {
+        var blobContainer = _blobServiceClient.GetBlobContainerClient(_blobStorageOptions.ContainerName);
+        var blobClient = blobContainer.GetBlobClient(fileId.ToString());
+        return await blobClient.ExistsAsync();
+    }
 }

@@ -5,7 +5,6 @@ using Business.Features.Commands.Offices.SetActiveStatus;
 using Business.Features.Commands.Offices.UpdateOffice;
 using Business.Features.Queries.Offices.GetOfficeById;
 using Business.Features.Queries.Offices.GetOffices;
-using DataAccess.BlobStorage;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -30,31 +29,6 @@ public static class OfficeMapGroup
             var resultValue = mapper.Map<OfficeGetResponse>(result.Value);
             return Results.Ok(resultValue);
         });
-
-        group.MapGet("{id:guid}/photo", async (IMediator mediator, IBlobService blobService, [FromRoute] Guid id, CancellationToken ct) =>
-        {
-            try
-            {
-                var fileResponse = await blobService.DownloadAsync(id, ct);
-                return Results.File(fileResponse.Stream, fileResponse.ContentType);
-            }
-            catch (Azure.RequestFailedException ex) when (ex.Status == 404)
-            {
-                return Results.NotFound();
-            }
-            
-        });
-        
-        group.MapPost("/upload", async (IFormFile file, IBlobService blobService, CancellationToken ct) =>
-            {
-                if (file.Length == 0) return Results.BadRequest("File is empty");
-
-                using var stream = file.OpenReadStream();
-                var fileId = await blobService.UploadAsync(stream, file.ContentType, ct);
-
-                return Results.Ok(new { Id = fileId });
-            })
-            .DisableAntiforgery();
         
         group.MapGet("",
             async (IMediator mediator, IMapper mapper, [FromQuery] int pageNumber = 0,
