@@ -1,7 +1,9 @@
-﻿using DataAccess.BlobStorage;
+﻿using Business.Features.Commands.Photos.DeletePhoto;
+using Business.Features.Commands.Photos.UploadPhoto;
+using Business.Features.Queries.Photos.DownloadPhoto;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Shared.Results;
+using Presentation.Extensions;
 
 namespace Presentation.MinimalApi;
 
@@ -9,41 +11,51 @@ public static class PhotoMapGroup
 {
     public static RouteGroupBuilder MapPhotos(this RouteGroupBuilder group)
     {
-        group.MapGet("{id:guid}", async (IMediator mediator, IBlobService blobService, [FromRoute] Guid id, CancellationToken ct) =>
-        {
-            try
-            {
-                var fileResponse = await blobService.DownloadAsync(id, ct);
-                return Results.File(fileResponse.Stream, fileResponse.ContentType);
-            }
-            catch (Azure.RequestFailedException ex) when (ex.Status == 404)
-            {
-                return Results.NotFound();
-            }
-            
-        })
-        .WithName("GetPhotoById");
-        
-        group.MapPost("/upload", async (IFormFile file, IBlobService blobService, CancellationToken ct) =>
-            {
-                if (file.Length == 0) return Results.BadRequest("File is empty");
+        group.MapGet("{id:guid}",
+                async (IMediator mediator, [FromRoute] Guid id, CancellationToken ct) =>
+                {
+                    var request = new DownloadPhotoCommand(id);
+                    var result = await mediator.Send(request, ct);
+                    if (!result.IsSuccess)
+                    {
+                        return result.ToProblemDetails();
+                    }
+                    
+                    var resultValue = result.Value;
+                    return Results.File(resultValue!.Stream, resultValue.ContentType);
+                })
+            .WithName("GetPhotoById");
 
-                using var stream = file.OpenReadStream();
-                var fileId = await blobService.UploadAsync(stream, file.ContentType, ct);
+        group.MapPost("/upload",
+                async (IMediator mediator, IFormFile file, CancellationToken ct) =>
+                {
+                    await using var stream = file.OpenReadStream();
+                    var request = new UploadPhotoCommand(stream, file.ContentType);
 
-                return Results.CreatedAtRoute("GetPhotoById", new { id = fileId },  fileId);
-            })
+                    var result = await mediator.Send(request, ct);
+
+                    if (!result.IsSuccess)
+                    {
+                        return result.ToProblemDetails();
+                    }
+
+                    var resultValue = result.Value;
+                    return Results.CreatedAtRoute("GetPhotoById", new { id = resultValue }, resultValue);
+                })
             .DisableAntiforgery();
 
-        group.MapDelete("{id:guid}", async (Guid id, IBlobService blobService, CancellationToken ct) =>
+        group.MapDelete("{id:guid}", async ([FromRoute] Guid id, IMediator mediator, CancellationToken ct) =>
         {
-            var isExists = await blobService.ExistsAsync(id, ct);
-            if (!isExists) return Results.NotFound();
-            
-            await blobService.DeleteAsync(id, ct);
+            var request = new DeletePhotoCommand(id);
+            var result = await mediator.Send(request, ct);
+            if (!result.IsSuccess)
+            {
+                return result.ToProblemDetails();
+            }
+
             return Results.NoContent();
         });
-        
+
         return group;
     }
 }

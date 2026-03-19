@@ -20,6 +20,8 @@ public static class WebApplicationExtension
 
                 app.MapGroup("/api/v1/offices")
                         .MapOffices();
+                app.MapGroup("/api/v1/photos")
+                        .MapPhotos();
 
         }
 }

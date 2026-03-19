@@ -3,6 +3,8 @@
 public static class ResultMessages
 {
     public static string OfficeNotFound = "Office not found";
+    public static string PhotoNotFound = "Photo not found";
+    public static string PhotoIsTooLarge = "Photo is too large";
     public static string ExceptionOccured = "Exception occured";
     public static string UnexpectedResult =  "Unexpected result";
 }
