@@ -37,6 +37,15 @@
     command: azurite-blob --blobHost 0.0.0.0 --blobPort 10000 --skipApiVersionCheck
     volumes:
       - azurite_data:/data
+  
+  mailpit:
+    image: axllent/mailpit
+    container_name: office_mail
+    ports:
+      - "1025:1025"
+      - "1110:1110"
+      - "8025:8025"
+    restart: unless-stopped
 
 volumes:
   mongodb_data:

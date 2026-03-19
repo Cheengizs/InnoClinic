@@ -1,4 +1,4 @@
-﻿namespace DataAccess;
+﻿namespace DataAccess.Options;
 
 public class DbOptionClass
 {

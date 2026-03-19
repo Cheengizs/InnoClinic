@@ -4,8 +4,11 @@
     using DataAccess;
     using DataAccess.BlobStorage;
     using DataAccess.DbContexts;
+    using DataAccess.Email;
+    using DataAccess.Options;
     using DataAccess.Repositories;
     using DataAccess.Repositories.Abstractions;
+    using DataAccess.UsersService;
     using FluentValidation;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Options;
@@ -26,6 +29,15 @@
             services.AddScoped<IOfficeRepository, OfficeRepository>();
             services.Configure<DbOptionClass>(configuration.GetSection("DatabaseOptions"));
 
+            services.Configure<EmailOptions>(configuration.GetSection("EmailOptions"));
+            services.Configure<UsersServiceOptions>(configuration.GetSection("UsersServiceOptions"));
+            services.AddHttpClient<IUsersService, UsersService>(client =>
+            {
+                client.BaseAddress = new Uri(configuration.GetSection("UsersServiceOptions").GetValue<string>("BaseAddress")!);
+            });
+
+            services.AddScoped<IEmailService, EmailService>();
+            
             services.Configure<BlobStorageOptions>(
                 configuration.GetSection("BlobStorage"));
 
