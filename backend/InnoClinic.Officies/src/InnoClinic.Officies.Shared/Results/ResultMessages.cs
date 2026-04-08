@@ -1,4 +1,4 @@
-﻿namespace Shared.Results;
+﻿namespace InnoClinic.Officies.Shared.Results;
 
 public static class ResultMessages
 {

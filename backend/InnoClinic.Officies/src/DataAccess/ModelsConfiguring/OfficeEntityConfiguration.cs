@@ -1,7 +1,7 @@
 ﻿using DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Shared.Constants;
+using InnoClinic.Officies.Shared.Constants;
 
 namespace DataAccess.ModelsConfiguring;
 

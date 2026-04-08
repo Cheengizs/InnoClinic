@@ -1,11 +1,12 @@
-﻿using System.Reflection;
-using System.Text;
+﻿using System.Text;
 using System.Text.Json.Serialization;
 using Application;
 using Application.Dto.Options;
 using FluentValidation;
 using Infrastructure;
+using Infrastructure.Consumers;
 using Infrastructure.Options;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -24,6 +25,26 @@ public static class ServicesExtensions
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             });
 
+        services.Configure<RabbitMqOptions>(configuration.GetSection(nameof(RabbitMqOptions)));
+
+        services.AddMassTransit(x =>
+        {
+            x.AddConsumer<GetAdminEmailsConsumer>();
+            x.UsingRabbitMq((context, cfg) =>
+            {
+                // cfg.SetLicense("Community");
+                var rabbitOptions = context.GetRequiredService<IOptions<RabbitMqOptions>>().Value;
+
+                cfg.Host(rabbitOptions.Host, rabbitOptions.VirtualHost, h =>
+                {
+                    h.Username(rabbitOptions.Username);
+                    h.Password(rabbitOptions.Password);
+                });
+
+                cfg.ConfigureEndpoints(context);
+            });
+        });
+        
         services.Configure<JwtOptions>(configuration.GetSection(nameof(JwtOptions)));
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

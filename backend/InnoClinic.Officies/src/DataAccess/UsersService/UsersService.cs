@@ -1,29 +1,16 @@
-﻿using System.Net.Http.Json;
-using DataAccess.Options;
-using Microsoft.Extensions.Options;
+﻿using MassTransit;
+using InnoClinic.Shared.Contracts;
 
 namespace DataAccess.UsersService;
 
-public class UsersService : IUsersService
+public class UsersService : IUsersService 
 {
-    private readonly HttpClient httpClient;
-    private readonly UsersServiceOptions _options;
-    
-    public UsersService(HttpClient httpClient, IOptions<UsersServiceOptions> options)
-    {
-        this.httpClient = httpClient;
-        _options = options.Value;
-    }
+    private readonly IRequestClient<GetAdminEmailsRequest> _client;
+    public UsersService(IRequestClient<GetAdminEmailsRequest> client) => _client = client;
 
-    public async Task<List<string>> GetAllAdminsEmails(CancellationToken ct = default)
+    public async Task<List<string>> GetAllAdminsEmails(CancellationToken ct) 
     {
-        var response = await httpClient.GetAsync(_options.Address, ct);
-        
-        if (!response.IsSuccessStatusCode)
-        {
-            return [];
-        }
-
-        return await response.Content.ReadFromJsonAsync<List<string>>(cancellationToken: ct) ?? [];
+        var response = await _client.GetResponse<GetAdminEmailsResponse>(new(), ct);
+        return response.Message.Emails.ToList();
     }
 }

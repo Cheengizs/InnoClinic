@@ -1,4 +1,4 @@
-﻿namespace Shared.Constants;
+﻿namespace InnoClinic.Officies.Shared.Constants;
 
 public static class DbConfigConstants
 {

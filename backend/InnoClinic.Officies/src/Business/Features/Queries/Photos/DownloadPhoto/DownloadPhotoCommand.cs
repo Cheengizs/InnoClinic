@@ -1,6 +1,6 @@
 ﻿using Business.Contracts.Photo;
+using InnoClinic.Officies.Shared.Results;
 using MediatR;
-using Shared.Results;
 
 namespace Business.Features.Queries.Photos.DownloadPhoto;
 

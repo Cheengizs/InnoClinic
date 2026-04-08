@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Shared.Results;
+using InnoClinic.Officies.Shared.Results;
 
 namespace Presentation.Extensions;
 

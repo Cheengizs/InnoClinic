@@ -1,21 +1,22 @@
-﻿    using Azure.Storage.Blobs;
-    using Business.Features.Commands.Offices.DeleteOffice;
-    using Business.Profiles;
-    using DataAccess;
-    using DataAccess.BlobStorage;
-    using DataAccess.DbContexts;
-    using DataAccess.Email;
-    using DataAccess.Options;
-    using DataAccess.Repositories;
-    using DataAccess.Repositories.Abstractions;
-    using DataAccess.UsersService;
-    using FluentValidation;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Options;
-    using Presentation.Profiles;
-    using Presentation.Validators;
+﻿using Azure.Storage.Blobs;
+using Business.Features.Commands.Offices.DeleteOffice;
+using Business.Profiles;
+using DataAccess.BlobStorage;
+using DataAccess.DbContexts;
+using DataAccess.Email;
+using DataAccess.Options;
+using DataAccess.Repositories;
+using DataAccess.Repositories.Abstractions;
+using DataAccess.UsersService;
+using FluentValidation;
+using InnoClinic.Shared.Contracts;
+using MassTransit;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Presentation.Profiles;
+using Presentation.Validators;
 
-    namespace Presentation.Extensions;
+namespace Presentation.Extensions;
 
     public static class ServicesExtensions
     {
@@ -31,26 +32,42 @@
 
             services.Configure<EmailOptions>(configuration.GetSection("EmailOptions"));
             services.Configure<UsersServiceOptions>(configuration.GetSection("UsersServiceOptions"));
-            services.AddHttpClient<IUsersService, UsersService>(client =>
-            {
-                client.BaseAddress = new Uri(configuration.GetSection("UsersServiceOptions").GetValue<string>("BaseAddress")!);
-            });
-
             services.AddScoped<IEmailService, EmailService>();
+
+            services.Configure<RabbitMqOptions>(configuration.GetSection("RabbitMqOptions"));
+            services.AddMassTransit(x =>
+            {
+                x.AddRequestClient<GetAdminEmailsRequest>();
+                
+                x.UsingRabbitMq((context, cfg) =>
+                {
+                    var options = context.GetRequiredService<IOptions<RabbitMqOptions>>().Value;
+
+                    cfg.Host(options.Host, options.VirtualHost, h =>
+                    {
+                        h.Username(options.Username);
+                        h.Password(options.Password);
+                    });
+
+                    cfg.ConfigureEndpoints(context);
+                });
+            });
+            services.AddScoped<IUsersService, UsersService>();
             
             services.Configure<BlobStorageOptions>(
                 configuration.GetSection("BlobStorage"));
 
-            services.AddSingleton(x => 
+            services.AddSingleton(_ => 
                 new BlobServiceClient(configuration.GetConnectionString("AzureBlobStorage")));
 
             services.AddSingleton<IBlobService, BlobService>();
             
             services.AddDbContext<OfficesDbContext>((serviceProvider, optionsBuilder) =>
             {
-                var options = serviceProvider.GetService<IOptions<DbOptionClass>>()?.Value;
+                var options = serviceProvider.GetRequiredService<IOptions<DbOptionClass>>().Value;
 
                 var connectionString = options.ToConnectionString();
+                Console.WriteLine($"{connectionString}");
                 optionsBuilder.UseMongoDB(connectionString, options.DatabaseName);
             });
             

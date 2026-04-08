@@ -9,13 +9,15 @@
     <ItemGroup>
       <PackageReference Include="Azure.Storage.Blobs" Version="12.27.0" />
       <PackageReference Include="MailKit" Version="4.15.1" />
+      <PackageReference Include="MassTransit.RabbitMQ" Version="8.2.5" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.4" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.4" />
       <PackageReference Include="MongoDB.EntityFrameworkCore" Version="10.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Shared\Shared.csproj" />
+      <ProjectReference Include="..\..\..\InnoClinic.Shared\src\Shared\Shared.csproj" />
+      <ProjectReference Include="..\InnoClinic.Officies.Shared\InnoClinic.Officies.Shared.csproj" />
     </ItemGroup>
 
 </Project>

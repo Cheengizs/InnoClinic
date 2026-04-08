@@ -3,8 +3,8 @@ using Business.Contracts.Office;
 using Business.Features.Notifications;
 using DataAccess.Models;
 using DataAccess.Repositories.Abstractions;
+using InnoClinic.Officies.Shared.Results;
 using MediatR;
-using Shared.Results;
 
 namespace Business.Features.Commands.Offices.CreateOffice;
 

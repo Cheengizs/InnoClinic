@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Business.Contracts.Office;
 using DataAccess.Repositories.Abstractions;
+using InnoClinic.Officies.Shared.Results;
 using MediatR;
-using Shared.Results;
 
 namespace Business.Features.Queries.Offices.GetOffices;
 

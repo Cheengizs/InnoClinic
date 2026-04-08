@@ -1,6 +1,6 @@
 ﻿using DataAccess.Repositories.Abstractions;
+using InnoClinic.Officies.Shared.Results;
 using MediatR;
-using Shared.Results;
 
 namespace Business.Features.Commands.Offices.SetActiveStatus;
 
