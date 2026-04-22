@@ -10,6 +10,7 @@ using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
 using Presentation.Validators;
 
 namespace Presentation.DiConfiguration;
@@ -32,15 +33,14 @@ public static class ServicesExtensions
             x.AddConsumer<GetAdminEmailsConsumer>();
             x.UsingRabbitMq((context, cfg) =>
             {
-                // cfg.SetLicense("Community");
                 var rabbitOptions = context.GetRequiredService<IOptions<RabbitMqOptions>>().Value;
-
+        
                 cfg.Host(rabbitOptions.Host, rabbitOptions.VirtualHost, h =>
                 {
                     h.Username(rabbitOptions.Username);
                     h.Password(rabbitOptions.Password);
                 });
-
+        
                 cfg.ConfigureEndpoints(context);
             });
         });
@@ -56,7 +56,6 @@ public static class ServicesExtensions
                 var jwtSettings = jwtOptionsWrapper.Value;
 
                 var secretKey = jwtSettings.SecretKey;
-
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
@@ -72,6 +71,7 @@ public static class ServicesExtensions
 
                     ClockSkew = TimeSpan.Zero
                 };
+
             });
 
         services.AddOpenApi();
@@ -80,6 +80,29 @@ public static class ServicesExtensions
 
         services.AddInfrastructure();
         services.AddApplication();
+
+        services.AddSwaggerGen();
+        
+        services.AddSwaggerGen(options =>
+        {
+            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                Description = "Input only JWT token like this:{your_token}",
+                Name = "Authorization",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.Http,
+                Scheme = "Bearer",
+                BearerFormat = "JWT",
+            });
+
+            options.AddSecurityRequirement(_ => new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecuritySchemeReference("Bearer"),
+                    new List<string>()
+                }
+            });
+        });
 
         return services;
     }
