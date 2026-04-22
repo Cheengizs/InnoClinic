@@ -1,0 +1,34 @@
+﻿services:
+  innoclinic_profiles_mssql_db:
+    image : mcr.microsoft.com/mssql/server:2022-latest
+    container_name: innoclinic_profiles_mssql_db
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
+      - MSSQL_COLLATION=Cyrillic_General_CI_AS
+#  innoclinic.profiles.application:
+#    image: innoclinic.profiles.application
+#    build:
+#      context: .
+#      dockerfile: src/InnoClinic.Profiles.Application/Dockerfile
+
+#  innoclinic.profiles.domain:
+#    image: innoclinic.profiles.domain
+#    build:
+#      context: .
+#      dockerfile: src/InnoClinic.Profiles.Domain/Dockerfile
+
+#  innoclinic.profiles.infrastructure:
+#    image: innoclinic.profiles.infrastructure
+#    build:
+#      context: .
+#      dockerfile: src/InnoClinic.Profiles.Infrastructure/Dockerfile
+
+#  innoclinic.profiles.presentation:
+#    image: innoclinic.profiles.presentation
+#    build:
+#      context: .
+#      dockerfile: src/InnoClinic.Profiles.Presentation/Dockerfile
+

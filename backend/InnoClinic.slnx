@@ -13,6 +13,15 @@
     <Project Path="InnoClinic.Officies/src/InnoClinic.Officies.Shared/InnoClinic.Officies.Shared.csproj" />
     <Project Path="InnoClinic.Officies/src/Presentation/Presentation.csproj" />
   </Folder>
+  <Folder Name="/InnoClinic.Profiles/">
+    <File Path="InnoClinic.Profiles/compose.yaml" />
+  </Folder>
+  <Folder Name="/InnoClinic.Profiles/src/">
+    <Project Path="InnoClinic.Profiles/src/InnoClinic.Profiles.Application/InnoClinic.Profiles.Application.csproj" />
+    <Project Path="InnoClinic.Profiles/src/InnoClinic.Profiles.Domain/InnoClinic.Profiles.Domain.csproj" />
+    <Project Path="InnoClinic.Profiles/src/InnoClinic.Profiles.Infrastructure/InnoClinic.Profiles.Infrastructure.csproj" />
+    <Project Path="InnoClinic.Profiles/src/InnoClinic.Profiles.Presentation/InnoClinic.Profiles.Presentation.csproj" />
+  </Folder>
   <Folder Name="/InnoClinic.Shared/" />
   <Folder Name="/InnoClinic.Shared/src/">
     <Project Path="InnoClinic.Shared/src/Shared/Shared.csproj" />
