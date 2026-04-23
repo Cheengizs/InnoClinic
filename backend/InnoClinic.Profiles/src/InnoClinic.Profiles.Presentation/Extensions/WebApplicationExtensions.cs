@@ -1,4 +1,6 @@
-﻿namespace InnoClinic.Profiles.Presentation.Extensions;
+﻿using InnoClinic.Profiles.Presentation.Controllers;
+
+namespace InnoClinic.Profiles.Presentation.Extensions;
 
 public static class WebApplicationExtensions
 {
@@ -17,5 +19,11 @@ public static class WebApplicationExtensions
         
         return app;
     }
-    
+
+    public static WebApplication AddControllers(this WebApplication app)
+    {
+        app.MapGroup("api/v1/doctor").MapDoctorControllersGroup();
+        
+        return app;
+    }
 }

@@ -9,8 +9,19 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="FluentValidation" Version="12.1.1" />
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
+        <PackageReference Include="MediatR" Version="14.1.0" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.6" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.6" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.7">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.7">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.7" />
         <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="10.1.7" />
         <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.1.7" />
@@ -21,6 +32,12 @@
       <Content Include="..\..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\InnoClinic.Shared\src\Shared\Shared.csproj" />
+      <ProjectReference Include="..\InnoClinic.Profiles.Application\InnoClinic.Profiles.Application.csproj" />
+      <ProjectReference Include="..\InnoClinic.Profiles.Infrastructure\InnoClinic.Profiles.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

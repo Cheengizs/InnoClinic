@@ -1,6 +1,19 @@
 ﻿using System.Text;
+using Azure.Storage.Blobs;
+using FluentValidation;
+using InnoClinic.Profiles.Application.BlobStorage;
+using InnoClinic.Profiles.Application.Features.Commands.Doctors.CreateDoctor;
+using InnoClinic.Profiles.Application.Repositories;
+using InnoClinic.Profiles.Infrastructure.BlobStorage;
+using InnoClinic.Profiles.Infrastructure.DbConfiguring;
+using InnoClinic.Profiles.Infrastructure.DbContexts;
+using InnoClinic.Profiles.Infrastructure.MessageBroker;
+using InnoClinic.Profiles.Infrastructure.Repositories;
 using InnoClinic.Profiles.Presentation.Options;
+using InnoClinic.Profiles.Presentation.Validators;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
@@ -76,7 +89,52 @@ public static class WebAppBuilderExtensions
             });
         });
 
+        // validation
+        builder.Services.AddValidatorsFromAssembly(typeof(DoctorCreateRequestValidator).Assembly);
+        
+        //repositories
+        builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
+        
+        // db
+        builder.Services.Configure<ProfilesDbOptions>(builder.Configuration.GetSection(nameof(ProfilesDbOptions)));
+        builder.Services.AddDbContext<ProfilesDbContext>((sp, options) =>
+        {
+            var dbConnOptions = sp.GetRequiredService<IOptions<ProfilesDbOptions>>().Value;
+            options.UseSqlServer(dbConnOptions.ConnectionString);
+        });
+        
+        //mediatr
+        builder.Services.AddMediatR(cfg =>
+        {
+            cfg.RegisterServicesFromAssembly(typeof(CreateDoctorCommand).Assembly);
+        });
+        
+        //blob
+        builder.Services.Configure<BlobStorageOptions>(
+            builder.Configuration.GetSection("BlobService"));
 
+        builder.Services.AddSingleton(_ => 
+            new BlobServiceClient(builder.Configuration.GetConnectionString("AzureBlobStorage")));
+
+        builder.Services.AddSingleton<IBlobService, BlobService>();
+        
+        // rabbitmq
+        builder.Services.Configure<RabbitMqOptions>(builder.Configuration.GetSection(nameof(RabbitMqOptions)));
+        builder.Services.AddMassTransit(configurator =>
+        {
+            configurator.UsingRabbitMq((context, cfg) =>
+            {
+                var options = context.GetRequiredService<IOptions<RabbitMqOptions>>().Value;
+                cfg.Host(options.Host, options.VirtualHost, h =>
+                {
+                    h.Username(options.Username);
+                    h.Password(options.Password);
+                });
+                
+                cfg.ConfigureEndpoints(context);
+            });
+        });
+        
         return builder;
     }
 }

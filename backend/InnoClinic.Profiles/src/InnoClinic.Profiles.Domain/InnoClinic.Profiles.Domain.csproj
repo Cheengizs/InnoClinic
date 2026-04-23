@@ -14,7 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Models\" />
+      <ProjectReference Include="..\..\..\InnoClinic.Shared\src\Shared\Shared.csproj" />
     </ItemGroup>
 
 </Project>

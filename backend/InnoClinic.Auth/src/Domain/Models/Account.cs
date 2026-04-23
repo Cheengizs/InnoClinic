@@ -31,6 +31,18 @@ public class Account
         CreatedAt = DateTime.UtcNow;
         Role = role;
     }
+    
+    public Account(Guid id, string email, string passwordHash, AccountRole role, string? phoneNumber = null)
+    {
+        Id = id;
+        Email = email;
+        PasswordHash = passwordHash;
+        PhoneNumber = phoneNumber;
+        IsEmailVerified = false;
+        IsActive = true;
+        CreatedAt = DateTime.UtcNow;
+        Role = role;
+    }
 
     public void VerifyEmail()
     {

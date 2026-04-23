@@ -1,7 +1,7 @@
 ﻿using Application.Features.Accounts.Queries.GetAdminsEmails;
 using MassTransit;
 using MediatR;
-using InnoClinic.Shared.Contracts; 
+using Shared.Contracts;
 
 namespace Infrastructure.Consumers;
 

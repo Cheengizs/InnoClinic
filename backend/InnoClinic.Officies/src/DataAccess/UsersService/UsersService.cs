@@ -1,5 +1,5 @@
 ﻿using MassTransit;
-using InnoClinic.Shared.Contracts;
+using Shared.Contracts;
 
 namespace DataAccess.UsersService;
 

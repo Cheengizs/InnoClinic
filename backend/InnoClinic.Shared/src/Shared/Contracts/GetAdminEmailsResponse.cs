@@ -1,3 +1,3 @@
-﻿namespace InnoClinic.Shared.Contracts;
+﻿namespace Shared.Contracts;
 
 public record GetAdminEmailsResponse(IEnumerable<string> Emails);

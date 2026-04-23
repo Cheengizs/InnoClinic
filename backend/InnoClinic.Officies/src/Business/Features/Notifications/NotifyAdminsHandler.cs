@@ -9,7 +9,7 @@ public class NotifyAdminsHandler : INotificationHandler<OfficeCreatedNotificatio
     private readonly IEmailService _emailService;
     private readonly IUsersService _usersService;
     
-    public NotifyAdminsHandler(IEmailService emailService, IUsersService usersService)
+    public NotifyAdminsHandler(IEmailService emailService, IUsersService usersService, IMediator mediator)
     {
         _emailService = emailService;
         _usersService = usersService;

@@ -13,4 +13,19 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\InnoClinic.Shared\src\Shared\Shared.csproj" />
+      <ProjectReference Include="..\InnoClinic.Profiles.Domain\InnoClinic.Profiles.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MassTransit.Abstractions" Version="8.2.5" />
+      <PackageReference Include="MediatR" Version="14.1.0" />
+      <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Features\Notifications\" />
+    </ItemGroup>
+
 </Project>

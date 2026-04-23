@@ -1,10 +1,12 @@
 ﻿using System.Text;
 using System.Text.Json.Serialization;
 using Application;
+using Application.Abstractions;
 using Application.Dto.Options;
 using FluentValidation;
 using Infrastructure;
 using Infrastructure.Consumers;
+using Infrastructure.EmailService;
 using Infrastructure.Options;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -20,36 +22,38 @@ public static class ServicesExtensions
     public static IServiceCollection ConfigureServices(this IServiceCollection services,
         IConfiguration configuration)
     {
+        //json converter
         services.AddControllers()
             .AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             });
 
+        // msg brokers
         services.Configure<RabbitMqOptions>(configuration.GetSection(nameof(RabbitMqOptions)));
-
         services.AddMassTransit(x =>
         {
             x.AddConsumer<GetAdminEmailsConsumer>();
+            x.AddConsumer<CreateAccountConsumer>();
+
             x.UsingRabbitMq((context, cfg) =>
             {
                 var rabbitOptions = context.GetRequiredService<IOptions<RabbitMqOptions>>().Value;
-        
+
                 cfg.Host(rabbitOptions.Host, rabbitOptions.VirtualHost, h =>
                 {
                     h.Username(rabbitOptions.Username);
                     h.Password(rabbitOptions.Password);
                 });
-        
+
                 cfg.ConfigureEndpoints(context);
             });
         });
-        
-        services.Configure<JwtOptions>(configuration.GetSection(nameof(JwtOptions)));
 
+        // jwt
+        services.Configure<JwtOptions>(configuration.GetSection(nameof(JwtOptions)));
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer();
-
         services.AddOptions<JwtBearerOptions>(JwtBearerDefaults.AuthenticationScheme)
             .Configure<IOptions<JwtOptions>>((options, jwtOptionsWrapper) =>
             {
@@ -71,18 +75,18 @@ public static class ServicesExtensions
 
                     ClockSkew = TimeSpan.Zero
                 };
-
             });
 
-        services.AddOpenApi();
+        //validators
         services.AddValidatorsFromAssembly(typeof(RegisterUserRequestValidator).Assembly);
-        services.Configure<DbConnectionOption>(configuration.GetSection(nameof(DbConnectionOption)));
 
+        // layers
+        services.Configure<DbConnectionOption>(configuration.GetSection(nameof(DbConnectionOption)));
         services.AddInfrastructure();
         services.AddApplication();
 
-        services.AddSwaggerGen();
-        
+        // swagger
+        services.AddOpenApi();
         services.AddSwaggerGen(options =>
         {
             options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -104,6 +108,9 @@ public static class ServicesExtensions
             });
         });
 
+        // email
+        services.Configure<EmailOptions>(configuration.GetSection(nameof(EmailOptions)));
+        services.AddScoped<IEmailService, EmailService>();
         return services;
     }
 }

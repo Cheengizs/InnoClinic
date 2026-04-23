@@ -1,0 +1,31 @@
+version: '3.8'
+
+name: innoclinic_infrastructure
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: innoclinic_rabbitmq
+
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+  mailpit:
+    image: axllent/mailpit
+    container_name: office_mail
+    ports:
+      - "1025:1025"
+      - "1110:1110"
+      - "8025:8025"
+    restart: unless-stopped
+
+volumes:
+  rabbitmq_data:

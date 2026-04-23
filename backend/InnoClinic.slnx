@@ -6,7 +6,9 @@
     <Project Path="InnoClinic.Auth/src/Infrastructure/Infrastructure.csproj" />
     <Project Path="InnoClinic.Auth/src/Presentation/Presentation.csproj" />
   </Folder>
-  <Folder Name="/InnoClinic.Officies/" />
+  <Folder Name="/InnoClinic.Officies/">
+    <File Path="InnoClinic.Officies/compose.yaml" />
+  </Folder>
   <Folder Name="/InnoClinic.Officies/src/">
     <Project Path="InnoClinic.Officies/src/Business/Business.csproj" />
     <Project Path="InnoClinic.Officies/src/DataAccess/DataAccess.csproj" />

@@ -1,6 +1,6 @@
 ﻿services:
   innoclinic_profiles_mssql_db:
-    image : mcr.microsoft.com/mssql/server:2022-latest
+    image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: innoclinic_profiles_mssql_db
     ports:
       - "1433:1433"
@@ -8,6 +8,16 @@
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
       - MSSQL_COLLATION=Cyrillic_General_CI_AS
+  
+  innoclinic_profiles_azurite:
+    image: mcr.microsoft.com/azure-storage/azurite
+    container_name: innoclinic_profiles_azurite
+    ports:
+      - "10003:10000" 
+      - "10004:10001" 
+      - "10005:10002" 
+    command: azurite-blob --blobHost 0.0.0.0 --blobPort 10000 --skipApiVersionCheck
+
 #  innoclinic.profiles.application:
 #    image: innoclinic.profiles.application
 #    build:

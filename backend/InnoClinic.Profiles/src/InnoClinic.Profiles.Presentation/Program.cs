@@ -8,4 +8,6 @@ var app = builder.Build();
 
 app.UseDependencies();
 
+app.AddControllers();
+
 app.Run();

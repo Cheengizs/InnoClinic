@@ -13,4 +13,17 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Azure.Storage.Blobs" Version="12.27.0" />
+      <PackageReference Include="MassTransit.RabbitMQ" Version="8.2.5" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.7" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.7" />
+      <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.7" />
+      <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\InnoClinic.Profiles.Application\InnoClinic.Profiles.Application.csproj" />
+    </ItemGroup>
+
 </Project>

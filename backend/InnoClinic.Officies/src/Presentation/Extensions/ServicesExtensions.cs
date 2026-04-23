@@ -9,12 +9,12 @@ using DataAccess.Repositories;
 using DataAccess.Repositories.Abstractions;
 using DataAccess.UsersService;
 using FluentValidation;
-using InnoClinic.Shared.Contracts;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Presentation.Profiles;
 using Presentation.Validators;
+using Shared.Contracts;
 
 namespace Presentation.Extensions;
 
