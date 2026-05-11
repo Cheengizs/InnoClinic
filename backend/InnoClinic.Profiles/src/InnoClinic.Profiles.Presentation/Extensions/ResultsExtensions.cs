@@ -27,11 +27,6 @@ public static class ResultExtensions
 
     private static IResult CreateProblemDetails(ErrorType errorType, string? message)
     {
-        var problemDetails = new ProblemDetails
-        {
-            Detail = message
-        };
-
         return errorType switch
         {
             ErrorType.Validation => Results.BadRequest(new ProblemDetails 
@@ -54,6 +49,8 @@ public static class ResultExtensions
                 Status = StatusCodes.Status409Conflict,
                 Detail = message 
             }),
+            
+            ErrorType.Unauthorized => Results.Unauthorized(),
 
             _ => Results.InternalServerError(new ProblemDetails 
             { 

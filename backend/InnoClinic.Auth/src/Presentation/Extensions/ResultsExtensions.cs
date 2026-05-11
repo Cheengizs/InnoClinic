@@ -1,5 +1,5 @@
 ﻿using Domain.Shared;
-using Microsoft.AspNetCore.Mvc;  
+using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Extensions;
 
@@ -34,32 +34,39 @@ public static class ResultExtensions
 
         return errorType switch
         {
-            ErrorType.Validation => new BadRequestObjectResult(new ProblemDetails 
-            { 
-                Title = "Validation Error", 
+            ErrorType.Validation => new BadRequestObjectResult(new ProblemDetails
+            {
+                Title = "Validation Error",
                 Status = StatusCodes.Status400BadRequest,
-                Detail = message 
+                Detail = message
             }),
 
-            ErrorType.NotFound => new NotFoundObjectResult(new ProblemDetails 
-            { 
-                Title = "Not Found", 
+            ErrorType.NotFound => new NotFoundObjectResult(new ProblemDetails
+            {
+                Title = "Not Found",
                 Status = StatusCodes.Status404NotFound,
-                Detail = message 
+                Detail = message
             }),
 
-            ErrorType.Conflict => new ConflictObjectResult(new ProblemDetails 
-            { 
-                Title = "Conflict", 
+            ErrorType.Conflict => new ConflictObjectResult(new ProblemDetails
+            {
+                Title = "Conflict",
                 Status = StatusCodes.Status409Conflict,
-                Detail = message 
+                Detail = message
             }),
 
-            _ => new ObjectResult(new ProblemDetails 
-            { 
-                Title = "Server Error", 
+            ErrorType.Unauthorized => new UnauthorizedObjectResult(new ProblemDetails
+            {
+                Title = "Unauthorized",
+                Status = StatusCodes.Status401Unauthorized,
+                Detail = message
+            }),
+
+            _ => new ObjectResult(new ProblemDetails
+            {
+                Title = "Server Error",
                 Status = StatusCodes.Status500InternalServerError,
-                Detail = message 
+                Detail = message
             })
             {
                 StatusCode = StatusCodes.Status500InternalServerError
